@@ -132,6 +132,20 @@ input[type="submit"]{
 input[type="submit"]:hover{
 	background-color:#000;
 }
+
+.pas_ok{
+	color: white;
+	display: block;
+}
+
+.ok{
+	color: green;
+	display: block;
+}
+
+.color_champ{
+	border : 2px solid wheat;
+}
 /***HEADER********************************/
 #header{
 	height:var(--header_h);

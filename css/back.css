@@ -1,0 +1,29 @@
+#left{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    background-color: #f01388;
+}
+
+#title{
+    position: fixed;
+    top: 0;
+    left: 280px;
+    width: calc(100% - 280px);
+    height: 80px;
+    background-color: #f01366;
+    display: flex;
+    align-items: center ;
+    padding-inline: 30px;
+}
+
+#right{
+    position: fixed;
+    top: 80px;
+    left: 280px;
+    width: calc(100% - 280px);
+    min-height: calc(100vh - 80px);
+    padding: 30px;
+}
