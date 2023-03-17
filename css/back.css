@@ -7,6 +7,17 @@
     background-color: #f01388;
 }
 
+#left a{
+    margin-top: 10%;
+    margin-left: 10%;
+    color: white;
+    text-decoration: none;
+}
+
+#left a:hover{
+    border-bottom: solid 2px blue;
+}
+
 #title{
     position: fixed;
     top: 0;
@@ -19,6 +30,33 @@
     padding-inline: 30px;
 }
 
+#title a{
+    text-decoration: none;
+    color: wheat;
+    background-color: blue;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+#title a:hover{
+    background-color: black;
+    padding: 10px 20px;
+}
+
+#title h1{
+    font-size: 2rem;
+    color: wheat;
+    text-shadow: 1px 1px black;
+}
+
+#logout{
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translate(0, -50%);
+    z-index: auto;
+}
+
 #right{
     position: fixed;
     top: 80px;
@@ -26,4 +64,35 @@
     width: calc(100% - 280px);
     min-height: calc(100vh - 80px);
     padding: 30px;
+}
+
+#right details>summary{
+    display: flex;
+    background-color: #f0f0f0;
+
+}
+
+#right summary:hover{
+    background-color: #f85452;
+}
+
+#right summary div{
+    padding-right: 5%;
+    font-size: 1.2rem;
+}
+
+#date{
+    color: blue;
+}
+
+#nom{
+    text-transform: uppercase;
+}
+
+#message{
+    margin-block: 10px;
+    border: #f01366 solid 2px;
+    padding: 10px;
+    background-color: #f0f0f0;
+
 }

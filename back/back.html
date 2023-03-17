@@ -20,16 +20,21 @@
         <nav>
             <menu>
                 <li>
+                    <a href="../front/front.php">Retour front</a>
+                </li>
+                <li>
                     <a href="back.php?action=messagerie">Gestion de la messagerie</a>
                 </li>
             </menu>
         </nav>
     </section>
     <section id="title">
-
+        <h1><?php if(isset($titre)){echo $titre;} ?></h1>
+        <div id="logout"><a href="back.php?action=logout">SE DÉCONNECTER</a></div>
     </section>
     <section id="right">
-        
+    <?php if(isset($confirmation)){echo $confirmation;} ?>
+        <?php if(isset($content)){echo $content;} ?>
     </section>
 </body>
 

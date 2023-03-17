@@ -1,4 +1,11 @@
 <?php
+//permet d'utiliser l'usage des varaibles de session
+session_start();
+
+//si on est connecté au back, on place un btn sur le front pour revenir sur le back
+if (isset($_SESSION['id_compte'])) {
+    $retour="<div><a href=\"../back/back.php\">RETOUR</a></div>";
+}
 
 // on connecte le fichier de fonctions
 require_once("../outils/fonctions.php");
