@@ -80,7 +80,7 @@
   font-size: 1.2rem;
 }
 
-#right textarea{
+#right textarea {
   width: 100%;
   min-width: 100%;
   max-width: 100%;
@@ -99,7 +99,8 @@
   text-transform: uppercase;
 }
 
-#message, #nom_compte {
+#message,
+#nom_compte {
   margin-block: 10px;
   border: #f01366 solid 2px;
   padding: 10px;
@@ -118,7 +119,8 @@
   display: block;
 }
 
-#form_compte, #form_page {
+#form_compte,
+#form_page {
   margin-top: 10px;
   display: flex;
   flex-direction: column;
@@ -129,7 +131,7 @@
   width: 15%;
 }
 
-#form_compte label{
+#form_compte label {
   margin-block: 10px;
   text-transform: uppercase;
   font-weight: bold;
@@ -142,7 +144,7 @@
   padding-block: 5px;
 }
 
-#submit:hover{
+#submit:hover {
   background-color: blue;
 }
 
@@ -153,14 +155,14 @@
   width: 15%;
 }
 
-#right .options{
+#right .options {
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
 
 #right .options label,
-#right .options input{
+#right .options input {
   width: auto;
   padding-right: 15px;
 }
