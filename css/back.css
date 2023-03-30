@@ -1,98 +1,166 @@
-#left{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 280px;
-    height: 100vh;
-    background-color: #f01388;
+#left {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  background-color: #f01388;
 }
 
-#left a{
-    margin-top: 10%;
-    margin-left: 10%;
-    color: white;
-    text-decoration: none;
+#left a {
+  margin-top: 10%;
+  margin-left: 10%;
+  color: white;
+  text-decoration: none;
 }
 
-#left a:hover{
-    border-bottom: solid 2px blue;
+#left a:hover {
+  border-bottom: solid 2px blue;
 }
 
-#title{
-    position: fixed;
-    top: 0;
-    left: 280px;
-    width: calc(100% - 280px);
-    height: 80px;
-    background-color: #f01366;
-    display: flex;
-    align-items: center ;
-    padding-inline: 30px;
+#title {
+  position: fixed;
+  top: 0;
+  left: 280px;
+  width: calc(100% - 280px);
+  height: 80px;
+  background-color: #f01366;
+  display: flex;
+  align-items: center;
+  padding-inline: 30px;
 }
 
-#title a{
-    text-decoration: none;
-    color: wheat;
-    background-color: blue;
-    padding: 5px 10px;
-    border-radius: 10px;
+#title a {
+  text-decoration: none;
+  color: wheat;
+  background-color: blue;
+  padding: 5px 10px;
+  border-radius: 10px;
 }
 
-#title a:hover{
-    background-color: black;
-    padding: 10px 20px;
+#title a:hover {
+  background-color: black;
+  padding: 10px 20px;
 }
 
-#title h1{
-    font-size: 2rem;
-    color: wheat;
-    text-shadow: 1px 1px black;
+#title h1 {
+  font-size: 2rem;
+  color: wheat;
+  text-shadow: 1px 1px black;
 }
 
-#logout{
-    position: absolute;
-    right: 50px;
-    top: 50%;
-    transform: translate(0, -50%);
-    z-index: auto;
+#logout {
+  position: absolute;
+  right: 50px;
+  top: 50%;
+  transform: translate(0, -50%);
+  z-index: auto;
 }
 
-#right{
-    position: fixed;
-    top: 80px;
-    left: 280px;
-    width: calc(100% - 280px);
-    min-height: calc(100vh - 80px);
-    padding: 30px;
+#right {
+  position: fixed;
+  top: 80px;
+  left: 280px;
+  width: calc(100% - 280px);
+  min-height: calc(100vh - 80px);
+  padding: 30px;
 }
 
-#right details>summary{
-    display: flex;
-    background-color: #f0f0f0;
-
+#right details > summary {
+  display: flex;
+  background-color: #f0f0f0;
 }
 
-#right summary:hover{
-    background-color: #f85452;
+#right summary:hover {
+  background-color: #f85452;
 }
 
-#right summary div{
-    padding-right: 5%;
-    font-size: 1.2rem;
+#right summary div {
+  padding-right: 5%;
+  font-size: 1.2rem;
 }
 
-#date{
-    color: blue;
+#right textarea{
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 200px;
+  display: block;
+  padding: 8px;
+  font-size: inherit;
+  font-family: inherit;
 }
 
-#nom{
-    text-transform: uppercase;
+#date {
+  color: blue;
 }
 
-#message{
-    margin-block: 10px;
-    border: #f01366 solid 2px;
-    padding: 10px;
-    background-color: #f0f0f0;
+#nom {
+  text-transform: uppercase;
+}
 
+#message, #nom_compte {
+  margin-block: 10px;
+  border: #f01366 solid 2px;
+  padding: 10px;
+  background-color: #f0f0f0;
+}
+
+.pas_ok {
+  background-color: red;
+  color: white;
+  display: block;
+}
+
+.ok {
+  background-color: green;
+  color: white;
+  display: block;
+}
+
+#form_compte, #form_page {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+#form_compte input {
+  border-radius: 10px;
+  padding-inline: 10px;
+  width: 15%;
+}
+
+#form_compte label{
+  margin-block: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+#submit {
+  margin-top: 10px;
+  background-color: black;
+  color: white;
+  padding-block: 5px;
+}
+
+#submit:hover{
+  background-color: blue;
+}
+
+#form_page input {
+  border-radius: 10px;
+  padding-inline: 10px;
+  margin-block: 15px;
+  width: 15%;
+}
+
+#right .options{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#right .options label,
+#right .options input{
+  width: auto;
+  padding-right: 15px;
 }

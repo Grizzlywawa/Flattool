@@ -25,6 +25,12 @@
                 <li>
                     <a href="back.php?action=messagerie">Gestion de la messagerie</a>
                 </li>
+                <li>
+                    <a href="back.php?action=compte">Gestion des Comptes</a>
+                </li>
+                <li>
+                    <a href="back.php?action=page">Gestion des pages</a>
+                </li>
             </menu>
         </nav>
     </section>
@@ -35,6 +41,7 @@
     <section id="right">
     <?php if(isset($confirmation)){echo $confirmation;} ?>
         <?php if(isset($content)){echo $content;} ?>
+        <?php if(isset($form)){include ($form);} ?>
     </section>
 </body>
 

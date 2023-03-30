@@ -30,6 +30,17 @@ if (isset($_SESSION['id_compte'])) {
                 include("messagerie.php");
 
                 break;
+
+            case "compte":
+
+                include("compte.php");
+
+                break;
+
+            case "page":
+                include("page.php");
+
+                break;
         }
     }
     //permet d'associer front.php avec front.html
