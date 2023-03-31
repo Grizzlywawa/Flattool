@@ -166,7 +166,7 @@ input[type="submit"]:hover{
 }
 
 /*********************/
-#home{
+#page{
 	padding:var(--padding_v) var(--padding_h);	
 }
 
@@ -221,78 +221,6 @@ input[type="submit"]:hover{
 	left:0;
 	bottom:0;
 	z-index:1;
-}
-
-/*********************************/
-#features h2{
-	padding-left:90px;
-}
-
-#features article:first-of-type{
-	background:url("../images/calendrier.png") no-repeat left 15px;
-}
-
-#features article:nth-of-type(2){
-	background:url("../images/loupe.png") no-repeat left 15px;
-}
-
-#features article:last-of-type{
-	background:url("../images/reglage.png") no-repeat left 15px;
-}
-
-#features article{
-	background-size:65px;
-}
-
-/**********************************/
-#formules{
-	align-items:stretch;
-}
-
-#formules article{
-	position:relative;
-	padding:50px 50px 80px;
-}
-
-#formules .prix{
-	position:absolute;
-	top:0;
-	left:50px;
-	right:50px;
-	z-index:1;
-	padding:10px 0;
-	font-size:1.3rem;
-}
-#formules .prix span{
-	font-size:.9rem;
-	vertical-align:middle;
-}
-
-#formules .btn{
-	position:absolute;
-	bottom:20px;
-	right:50px;
-	z-index:1;
-}
-
-#formules ul{
-	padding-left:30px;
-}
-
-#formules li{
-	position:relative;
-	padding:10px 0;
-}
-
-#formules li::before{
-	content:"";
-	position:absolute;
-	left:-20px;
-	top:50%;
-	transform:translate(0,-50%);
-	border-left:6px solid #fff;
-	border-top:5px solid transparent;
-	border-bottom:5px solid transparent;
 }
 
 /************************/

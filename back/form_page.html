@@ -14,23 +14,34 @@
     value="<?php if(isset($_POST['titre_page'])){echo $_POST['titre_page'];} ?>"
   />
 
-  <label for="contenu">Contenu de la page</label>
-  <textarea name="contenu_page" id="contenu" placeholder="Contenu [obligatoire]"><?php if(isset($_POST['contenu_page'])){echo $_POST['contenu_page'];} ?></textarea>
+  <label for="contenu">Contenu de la page (obligatoire)</label>
+  <div class="YSeditor">
+    <textarea
+      name="contenu_page"
+      id="contenu"
+      placeholder="Contenu [obligatoire]"
+    >
+<?php if(isset($_POST['contenu_page'])){echo $_POST['contenu_page'];} ?></textarea
+    >
+  </div>
 
   <label for="img">Illustration (facultatif)</label>
-  <input
-    id="img"
-    type="file"
-    name="img_page"
-    value=""
-  />
+  <input id="img" type="file" name="img_page" value="" />
 
   <label for="visble">Visible</label>
   <div class="options">
-    <label for="oui">OUI</label
-    ><input id="oui" type="radio" name="visible" value="1" />
-    <label for="non">NON</label
-    ><input id="non" type="radio" name="visible" value="0" />
+    <label id="ouioui" for="oui">OUI</label
+    ><input
+      id="oui"
+      type="radio"
+      name="visible"
+      value="1"
+      <?php
+      if(isset($check[1])){echo
+      $check[1];}
+      ?>
+    /> <label id="nonnon" for="non">NON</label
+    ><input id="non" type="radio" name="visible" value="0" <?php if(isset($check[0])){echo $check[0];} ?> />
   </div>
 
   <input id="submit" type="submit" name="submit" value="ENREGISTRER" />

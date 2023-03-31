@@ -6,6 +6,8 @@ if (isset($_SESSION['id_compte'])) {
     $form = "form_page.html";
     //action par défault du formulaire
     $action_form = "inserer_page";
+    //pour cocher par défault visible à oui
+    $check[1] = "checked";
 
 
     if (isset($_GET['cas'])) {
@@ -13,28 +15,21 @@ if (isset($_SESSION['id_compte'])) {
         //on switche sur la valeur contenue dans $_GET['action"]
         switch ($_GET['cas']) {
 
-            case "inserer_compte":
-                if (empty($_POST['nom_compte'])) {
-                    $confirmation = "<p class=\"pas_ok\">Le nom du compte est obligatoire</p>";
-                } elseif (empty($_POST['email_compte'])) {
-                    $confirmation = "<p class=\"pas_ok\">Le champ email est obligatoire</p>";
+            case "inserer_page":
 
-                } elseif (empty($_POST['login_compte'])) {
-                    $confirmation = "<p class=\"pas_ok\">Le champ login est obligatoire</p>";
-
-                } elseif (empty($_POST['pass_compte'])) {
-                    $confirmation = "<p class=\"pas_ok\">Le champ mot de passe est obligatoire</p>";
-
+                if (empty($_POST['titre_page'])) {
+                    $confirmation = "<p class=\"pas_ok\">Le titre de la page est obligatoire</p>";
+                } elseif (empty($_POST['contenu_page'])) {
+                    $confirmation = "<p class=\"pas_ok\">Le contenu de la page est obligatoire</p>";
                 } else {
-                    $requete = "INSERT INTO comptes SET
-                        nom_compte='" . security($_POST['nom_compte']) . "',
-                        prenom_compte='" . security($_POST['prenom_compte']) . "',
-                        email_compte='" . security($_POST['email_compte']) . "',
-                        login_compte='" . security($_POST['login_compte']) . "',
-                        pass_compte=SHA1('" . ($_POST['pass_compte']) . "')";
+                    $requete = "INSERT INTO pages SET
+                        titre_page='" . security($_POST['titre_page']) . "',
+                        contenu_page='" . security($_POST['contenu_page']) . "',
+                        visible='" . $_POST['visible'] . "',
+                        date_page=NOW()";
                     $resultat = mysqli_query($connexion, $requete);
 
-                    $confirmation = "<p class=\"ok\">Le compte a bien été enregistré.</p>";
+                    $confirmation = "<p class=\"ok\">La page a bien été créée.</p>";
                     foreach ($_POST as $cle => $valeur) {
                         unset($_POST[$cle]);
                     }
@@ -43,82 +38,63 @@ if (isset($_SESSION['id_compte'])) {
 
                 break;
 
-            case "avertir_compte":
+            case "avertir_page":
 
-                if (isset($_GET['id_compte'])) {
-                    $confirmation = "<p>Voulez-vous supprimer l'utilisateur n°" . $_GET['id_compte'] . "</p>";
-                    $confirmation .= "<a href=\"back.php?action=compte&cas=supprimer_compte&id_compte=" . $_GET['id_compte'] . "\">Oui</a>&nbsp;&nbsp;&nbsp;";
-                    $confirmation .= "<a href=\"back.php?action=compte\">Non</a>";
+                if (isset($_GET['id_page'])) {
+                    $confirmation = "<p>Voulez-vous supprimer la page n°" . $_GET['id_page'] . "</p>";
+                    $confirmation .= "<a href=\"back.php?action=page&cas=supprimer_page&id_page=" . $_GET['id_page'] . "\">Oui</a>&nbsp;&nbsp;&nbsp;";
+                    $confirmation .= "<a href=\"back.php?action=page\">Non</a>";
                 }
 
                 break;
 
-            case "supprimer_compte":
+            case "supprimer_page":
 
-                if (isset($_GET['id_compte'])) {
+                if (isset($_GET['id_page'])) {
                     //on vérifie que ce n'est pas le dernier compte autorisé
-                    $requete = "SELECT COUNT(*) AS nb_compte FROM comptes";
+                    $requete = "SELECT COUNT(*) AS nb_page FROM pages";
                     $resultat = mysqli_query($connexion, $requete);
                     $ligne = mysqli_fetch_object($resultat);
-                    //si c'est le dernier compte de la table
-                    if ($ligne->nb_compte == 1) {
-                        $confirmation = "<p class=\"pas_ok\">Le compte ne peut pas être supprimé car dernier compte autorisé</p>";
-                    } else {
-                        $requete2 = "DELETE FROM comptes WHERE id_compte='" . $_GET['id_compte'] . "'";
-                        $resultat2 = mysqli_query($connexion, $requete2);
-                        $confirmation = "<p class=\"ok\">Le compte a bien été supprimé</p>";
-                    }
 
-
-
+                    $requete2 = "DELETE FROM pages WHERE id_page='" . $_GET['id_page'] . "'";
+                    $resultat2 = mysqli_query($connexion, $requete2);
+                    $confirmation = "<p class=\"ok\">La page a bien été supprimée</p>";
                 }
 
+
+
                 break;
-            case "recharger_compte":
-                $action_form = "modifier_compte&id_compte=" . $_GET['id_compte'];
-                if (isset($_GET['id_compte'])) {
+            case "recharger_page":
+                $action_form = "modifier_page&id_page=" . $_GET['id_page'];
+                if (isset($_GET['id_page'])) {
                     //on recharge les champs du formulaire
-                    $requete = "SELECT * FROM comptes WHERE id_compte='" . $_GET['id_compte'] . "'";
+                    $requete = "SELECT * FROM pages WHERE id_page='" . $_GET['id_page'] . "'";
                     $resultat = mysqli_query($connexion, $requete);
                     $ligne = mysqli_fetch_object($resultat);
                     // on réattribbue à chaque champ du formulaire la valeur récupérée dans la BDD
-                    $_POST['nom_compte'] = $ligne->nom_compte;
-                    $_POST['prenom_compte'] = $ligne->prenom_compte;
-                    $_POST['email_compte'] = $ligne->email_compte;
-                    $_POST['login_compte'] = $ligne->login_compte;
+                    $_POST['titre_page'] = $ligne->titre_page;
+                    $_POST['contenu_page'] = $ligne->contenu_page;
+                    $_POST['visible'] = $ligne->visible;
                 }
 
                 break;
-            case "modifier_compte":
-                if (isset($_GET['id_compte'])) {
+            case "modifier_page":
+                if (isset($_GET['id_page'])) {
                     //on met à jour la table 
-                    if (empty($_POST['nom_compte'])) {
-                        $confirmation = "<p class=\"pas_ok\">Le nom du compte est obligatoire</p>";
-                    } elseif (empty($_POST['email_compte'])) {
-                        $confirmation = "<p class=\"pas_ok\">Le champ email est obligatoire</p>";
-
-                    } elseif (empty($_POST['login_compte'])) {
-                        $confirmation = "<p class=\"pas_ok\">Le champ login est obligatoire</p>";
-
+                    if (empty($_POST['titre_page'])) {
+                        $confirmation = "<p class=\"pas_ok\">Le titre de la page est obligatoire</p>";
+                    } elseif (empty($_POST['contenu_page'])) {
+                        $confirmation = "<p class=\"pas_ok\">Le contenu de la page est obligatoire</p>";
                     } else {
-                        $requete = "UPDATE comptes SET nom_compte='" . security($_POST['nom_compte']) . "',
-                        prenom_compte='" . security($_POST['prenom_compte']) . "',
-                        email_compte='" . security($_POST['email_compte']) . "',
-                        login_compte='" . security($_POST['login_compte']) . "'";
-
-
-                        //CAS 1 : le mot de passe a été ressaisi
-                        if (!empty($_POST['pass_compte'])) {
-
-                            $requete .= ",pass_compte=SHA1('" . $_POST['pass_compte'] . "')";
-
-                        }
-                        $requete .= " WHERE id_compte='" . $_GET['id_compte'] . "'";
+                        $requete = "UPDATE pages SET titre_page='" . security($_POST['titre_page']) . "',
+                        contenu_page='" . security($_POST['contenu_page']) . "',
+                        date_page=NOW()";
+                        $requete .= " WHERE id_page='" . $_GET['id_page'] . "'";
                         $resultat = mysqli_query($connexion, $requete);
                     }
 
                     //on notifie la mise à jour
-                    $confirmation = '<p class=\"ok\"> Le compte a bien été modifié</p>';
+                    $confirmation = '<p class=\"ok\"> La page a bien été modifiée</p>';
 
                     //on vide les champs du formulaire
                     foreach ($_POST as $cle => $valeur) {
@@ -128,11 +104,23 @@ if (isset($_SESSION['id_compte'])) {
                 }
 
                 break;
+
+            case "modifier_etat":
+
+                if (isset($_GET['id_page'])) {
+                    if (isset($_GET['etat'])) {
+                        $requete = "UPDATE pages SET visible='" . $_GET['etat'] . "' WHERE id_page='" . $_GET['id_page'] . "'";
+                        $resultat = mysqli_query($connexion, $requete);
+                    }
+                }
+            break;
+
+            
         }
     }
 
 
-    $requete = "SELECT * FROM comptes ORDER BY id_compte ASC";
+    $requete = "SELECT * FROM pages ORDER BY id_page ASC";
     $resultat = mysqli_query($connexion, $requete);
     //tant que $resultat contient des lignes (uplets)
     $content = "";
@@ -140,14 +128,24 @@ if (isset($_SESSION['id_compte'])) {
 
         $content .= "<details>";
         $content .= "<summary>";
-        $content .= "<div>" . $ligne->id_compte . "</div>";
-        $content .= "<div>" . $ligne->login_compte . " " . "</div>";
-        $content .= "<div>" . $ligne->email_compte . "</div>";
-        $content .= "<div><a href=\"back.php?action=compte&cas=recharger_compte&id_compte=" . $ligne->id_compte . "\"  >Modifier</a></div>";
-        $content .= "<div><a href=\"back.php?action=compte&cas=avertir_compte&id_compte=" . $ligne->id_compte . "\">Supprimer</a></div>";
+        $content .= "<div id=\"info_page\">";
+        $content .= "<div id=\"id_page\">" . $ligne->id_page . "</div>";
+        $content .= "<div id=\"titre_page\">" . $ligne->titre_page . " " . "</div>";
+        $content .= "</div><div id=\"change_page\">";
+        //Pour changer l'état de la page en visible ou non en cliquant sur l'état de la page
+        if ($ligne->visible == 1) {
+            $content .= "<div><a href=\"back.php?action=page&cas=modifier_etat&etat=0&id_page=" . $ligne->id_page . "\"><i style=\"color: goldenrod;\" class=\"fa-regular fa-eye\"></i></a></div>";
+        } else {
+            $content .= "<div><a href=\"back.php?action=page&cas=modifier_etat&etat=1&id_page=" . $ligne->id_page . "\"><i style=\"color: goldenrod;\" class=\"fa-regular fa-eye-slash\"></i></a></div>";
+        }
+        $content .= "<div><a href=\"back.php?action=page&cas=recharger_page&id_page=" . $ligne->id_page . "\"  ><i style=\"color: goldenrod;\" class=\"fa-solid fa-paintbrush\"></i></a></div>";
+        $content .= "<div><a href=\"back.php?action=page&cas=avertir_page&id_page=" . $ligne->id_page . "\"><i style=\"color: goldenrod;\" class=\"fa-solid fa-x\"></i></a></div>";
+        $content .= "</div>";
         $content .= "</summary>";
-        $content .= "<div id=\"nom_compte\">" . $ligne->nom_compte . " " . $ligne->prenom_compte . "</div>";
-
+        $content .= "<div class=\"contenu_page\">";
+        $content .= "<div id=\"date\">Créer le " . $ligne->date_page . "</div>";
+        $content .= "<div id=\"contenu_page\">" . $ligne->contenu_page . "</div>";
+        $content .= "</div>";
         $content .= "</details>";
     }
 

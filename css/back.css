@@ -1,21 +1,45 @@
+body{
+  font-family: 'Roboto';
+}
 #left {
   position: fixed;
   top: 0;
   left: 0;
   width: 280px;
   height: 100vh;
-  background-color: #f01388;
+  padding: 15px 20px;
+  background-color: gray;
+}
+
+#left #menu{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  list-style-type: none;
 }
 
 #left a {
-  margin-top: 10%;
+  display: block;
+  background-color: palegoldenrod;
   margin-left: 10%;
-  color: white;
+  color: black;
   text-decoration: none;
+  padding: 15px;
+  border-radius: 4px;
+  border: solid 1px black;
+  margin-bottom: 10px;
 }
 
 #left a:hover {
-  border-bottom: solid 2px blue;
+  background-color: goldenrod;
+}
+
+#left li:first-child{
+  margin-bottom: 80px;
+}
+
+#left li:first-child a{
+  background-color: goldenrod;
 }
 
 #title {
@@ -24,28 +48,29 @@
   left: 280px;
   width: calc(100% - 280px);
   height: 80px;
-  background-color: #f01366;
+  background-color: gray;
   display: flex;
   align-items: center;
   padding-inline: 30px;
+  z-index: 2;
 }
 
 #title a {
   text-decoration: none;
-  color: wheat;
-  background-color: blue;
-  padding: 5px 10px;
+  color: black;
+  background-color: palegoldenrod;
+  padding: 10px 20px;
   border-radius: 10px;
 }
 
 #title a:hover {
-  background-color: black;
+  background-color: goldenrod;
   padding: 10px 20px;
 }
 
 #title h1 {
   font-size: 2rem;
-  color: wheat;
+  color: goldenrod;
   text-shadow: 1px 1px black;
 }
 
@@ -68,11 +93,16 @@
 
 #right details > summary {
   display: flex;
-  background-color: #f0f0f0;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: gray;
+  border: solid 1px black;
+  margin-block: 10px;
+  color: goldenrod;
 }
 
 #right summary:hover {
-  background-color: #f85452;
+  background-color: black;
 }
 
 #right summary div {
@@ -92,7 +122,7 @@
 }
 
 #date {
-  color: blue;
+  color:black;
 }
 
 #nom {
@@ -100,11 +130,12 @@
 }
 
 #message,
-#nom_compte {
+#nom_compte,
+.contenu_page {
   margin-block: 10px;
-  border: #f01366 solid 2px;
+  border: goldenrod solid 2px;
   padding: 10px;
-  background-color: #f0f0f0;
+  background-color: palegoldenrod;
 }
 
 .pas_ok {
@@ -125,7 +156,8 @@
   display: flex;
   flex-direction: column;
 }
-#form_compte input {
+#form_compte input,
+#form_compte select {
   border-radius: 10px;
   padding-inline: 10px;
   width: 15%;
@@ -145,14 +177,14 @@
 }
 
 #submit:hover {
-  background-color: blue;
+  background-color: goldenrod;
 }
 
 #form_page input {
   border-radius: 10px;
   padding-inline: 10px;
   margin-block: 15px;
-  width: 15%;
+  width: 25%;
 }
 
 #right .options {
@@ -165,4 +197,41 @@
 #right .options input {
   width: auto;
   padding-right: 15px;
+}
+
+#info_page, #change_page{
+display: flex;
+flex-wrap: wrap;
+width: 50%;
+}
+
+#change_page{
+  justify-content: flex-end;
+}
+
+#titre_page{
+  font-weight: bold;
+  width: 50%;
+}
+
+#id_page{
+  padding-left: 10px;
+}
+
+#form_page label{
+  font-weight: bold;
+  text-decoration: underline;
+  margin-bottom: 5px;
+}
+
+#form_page #submit{
+  width: 10%;
+}
+
+#form_page #ouioui{
+  text-decoration: none;
+}
+#form_page #nonnon{
+  text-decoration: none;
+  padding-left: 15px;
 }

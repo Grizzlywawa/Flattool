@@ -43,7 +43,7 @@ if (isset($_SESSION['id_compte'])) {
         $content .= "<div id=\"date\">" . $ligne->date_contact . "</div>";
         $content .= "<div id=\"nom\">" . $ligne->nom_contact . " " . $ligne->prenom_contact . "</div>";
         $content .= "<div id=\"mail\">" . $ligne->email_contact . "</div>";
-        $content .= "<div><a href=\"back.php?action=messagerie&cas=avertir_message&id_contact=" . $ligne->id_contact . "\">Supprimer</a></i></div>";
+        $content .= "<div><a href=\"back.php?action=messagerie&cas=avertir_message&id_contact=" . $ligne->id_contact . "\"><i style=\"color: wheat;\" class=\"fa-solid fa-x\"></i></a></i></div>";
         $content .= "</summary>";
 
         $content .= "<div id=\"message\">" . $ligne->message_contact . "</div>";

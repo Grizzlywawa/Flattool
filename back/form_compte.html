@@ -8,6 +8,14 @@
     <label for="email">Email</label>  
     <input id="email" class="<?php if(isset($color_champ['email_compte'])){echo $color_champ['email_compte'];} ?>" placeholder="Email [obligatoire]" type="email" name="email_compte" value="<?php if(isset($_POST['email_compte'])){echo $_POST['email_compte'];} ?>">
     
+    <label for="statut">Statut</label>  
+    <select id="statut" class="<?php if(isset($color_champ['statut_compte'])){echo $color_champ['statut_compte'];} ?>"  name="statut_compte" value="<?php if(isset($_POST['statut_compte'])){echo $_POST['staut_ocmpte'];} ?>">
+        <option value="">Sélectionnez un statut (obligatoire)...</option>
+        <option value="super_admin" <?php if(isset($select['super_admin'])){echo $select['super_admin'];} ?>>Super Admin</option>
+        <option value="admin" <?php if(isset($select['admin'])){echo $select['admin'];} ?> >Administrateur</option>
+        <option value="abonné" <?php if(isset($select['abonné'])){echo $select['abonné'];} ?>>Abonné</option>
+    </select>
+    
     <label for="login">Login</label>
     <input id="login" class="<?php if(isset($color_champ['login_compte'])){echo $color_champ['login_compte'];} ?>" placeholder="Login [obligatoire]" type="text" name="login_compte" value="<?php if(isset($_POST['login_compte'])){echo $_POST['login_compte'];} ?>">
    

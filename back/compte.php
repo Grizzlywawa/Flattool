@@ -14,10 +14,17 @@ if (isset($_SESSION['id_compte'])) {
         switch ($_GET['cas']) {
 
             case "inserer_compte":
+
+                // pour maintenir la selection de la liste déroulante
+                if (!empty($_POST['statut_compte'])) {
+                    $select[$_POST['statut_compte']] = "selected";
+                }
                 if (empty($_POST['nom_compte'])) {
                     $confirmation = "<p class=\"pas_ok\">Le nom du compte est obligatoire</p>";
                 } elseif (empty($_POST['email_compte'])) {
                     $confirmation = "<p class=\"pas_ok\">Le champ email est obligatoire</p>";
+                } elseif (empty($_POST['statut_compte'])) {
+                    $confirmation = "<p class=\"pas_ok\">Le statut est obligatoire</p>";
 
                 } elseif (empty($_POST['login_compte'])) {
                     $confirmation = "<p class=\"pas_ok\">Le champ login est obligatoire</p>";
@@ -26,12 +33,15 @@ if (isset($_SESSION['id_compte'])) {
                     $confirmation = "<p class=\"pas_ok\">Le champ mot de passe est obligatoire</p>";
 
                 } else {
+
+                    // on enregistre le ccompte dans la table compte
                     $requete = "INSERT INTO comptes SET
                         nom_compte='" . security($_POST['nom_compte']) . "',
                         prenom_compte='" . security($_POST['prenom_compte']) . "',
-                        email_compte='" . security($_POST['email_compte']) . "',
+                        email_compte='" . $_POST['email_compte'] . "',
+                        statut_compte='" . security($_POST['statut_compte']) . "',
                         login_compte='" . security($_POST['login_compte']) . "',
-                        pass_compte=SHA1('" . ($_POST['pass_compte']) . "')";
+                        pass_compte=SHA1('" . $_POST['pass_compte'] . "')";
                     $resultat = mysqli_query($connexion, $requete);
 
                     $confirmation = "<p class=\"ok\">Le compte a bien été enregistré.</p>";
@@ -143,8 +153,9 @@ if (isset($_SESSION['id_compte'])) {
         $content .= "<div>" . $ligne->id_compte . "</div>";
         $content .= "<div>" . $ligne->login_compte . " " . "</div>";
         $content .= "<div>" . $ligne->email_compte . "</div>";
-        $content .= "<div><a href=\"back.php?action=compte&cas=recharger_compte&id_compte=" . $ligne->id_compte . "\"  >Modifier</a></div>";
-        $content .= "<div><a href=\"back.php?action=compte&cas=avertir_compte&id_compte=" . $ligne->id_compte . "\">Supprimer</a></div>";
+        $content .= "<div>" . $ligne->statut_compte . "</div>";
+        $content .= "<div><a href=\"back.php?action=compte&cas=recharger_compte&id_compte=" . $ligne->id_compte . "\"  ><i style=\"color: goldenrod;\" class=\"fa-solid fa-paintbrush\"></i></a></div>";
+        $content .= "<div><a href=\"back.php?action=compte&cas=avertir_compte&id_compte=" . $ligne->id_compte . "\"><i style=\"color: goldenrod;\" class=\"fa-solid fa-x\"></i></a></div>";
         $content .= "</summary>";
         $content .= "<div id=\"nom_compte\">" . $ligne->nom_compte . " " . $ligne->prenom_compte . "</div>";
 

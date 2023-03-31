@@ -1,18 +1,30 @@
 <?php
 //permet d'utiliser l'usage des varaibles de session
 session_start();
+$slide="home.php";
 
 //si on est connecté au back, on place un btn sur le front pour revenir sur le back
 if (isset($_SESSION['id_compte'])) {
-    $retour="<div><a href=\"../back/back.php\">RETOUR</a></div>";
+    $retour = "<div><a href=\"../back/back.php\">RETOUR</a></div>";
 }
 
 // on connecte le fichier de fonctions
 require_once("../outils/fonctions.php");
-$content = "home.php";
-$contact="form_contact.php";
+$contact = "form_contact.php";
 //on établit une connexion avec la base de données
 $connexion = connexion();
+
+
+//on calcule le menu que pour les pages visbles
+$requete = "SELECT * FROM pages WHERE visible='1' ORDER BY id_page";
+$resultat = mysqli_query($connexion, $requete);
+$menu_haut = "<nav id=\"menu_haut\"><menu>";
+//quand il y a plusieurs ligns attendues, utiliser while
+while ($ligne = mysqli_fetch_object($resultat)) {
+    //strtoupper pour forcer le texte à être en capital
+    $menu_haut .= "<li><a class=\"color3\" href=\"front.php?action=page&id_page=" . $ligne->id_page . "\">" . strtoupper($ligne->titre_page) . "</a></li>";
+}
+$menu_haut .= "</menu></nav>";
 
 
 
@@ -42,16 +54,23 @@ if (isset($_GET['action'])) {
             date_contact=NOW()";
 
                 $result = mysqli_query($connexion, $requete);
-                $contact="merci.php";
+                $contact = "merci.php";
             }
             break;
 
 
         case "page":
             //si on reçoit le paramètre page via la methode GET (lien url)
-            if (isset($_GET['page'])) {
-                $content = $_GET['page'] . ".php";
-                //ex: formules.php
+            if (isset($_GET['id_page'])) {
+                unset($slide);
+                $requete = "SELECT * FROM pages WHERE id_page='" . $_GET['id_page'] . "'";
+                $resultat = mysqli_query($connexion, $requete);
+                $ligne = mysqli_fetch_object($resultat);
+                $content = "<section id=\"page\" class=\" page-" . $ligne->id_page . " flex pad\">";
+                $content .= "<h1 class=\"center\">" . $ligne->titre_page . "</h1>";
+                $content .= $ligne->contenu_page;
+                $content .= "</section>";
+
             }
             break;
 

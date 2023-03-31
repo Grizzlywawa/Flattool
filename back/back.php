@@ -24,6 +24,7 @@ if (isset($_SESSION['id_compte'])) {
                 session_destroy();
                 //on redirige vers la page d'accueil du site
                 header("Location:../index.php");
+                break;
 
             case "messagerie":
 
