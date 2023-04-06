@@ -283,6 +283,9 @@ if (isset($_SESSION['id_compte'])) {
         $content .= "<div id=\"info_page\">";
         $content .= "<div id=\"id_page\">" . $ligne->id_page . "</div>";
         $content .= "<div id=\"titre_page\">" . $ligne->titre_page . " " . "</div>";
+        if(!empty($ligne->img_page)){
+            $content.="<div><img src=\"".$ligne->img_page."\" alt=\"\" /></div>";
+        }
         $content .= "</div><div id=\"change_page\">";
         //Pour changer l'état de la page en visible ou non en cliquant sur l'état de la page
         if ($ligne->visible == 1) {

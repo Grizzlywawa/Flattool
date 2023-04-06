@@ -283,7 +283,7 @@ form input:not(:placeholder-shown)+label span{
 }
 
 #illu, #text{
-	width: 40%;
+	width: 45%;
 }
 
 #illu img{
