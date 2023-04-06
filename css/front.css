@@ -281,3 +281,15 @@ form input:not(:placeholder-shown)+label span{
 #footer nav li a{
 	padding:10px;
 }
+
+#illu, #text{
+	width: 40%;
+}
+
+#illu img{
+	width: 100%;
+}
+ 
+#page{
+	padding-top:100px;
+}

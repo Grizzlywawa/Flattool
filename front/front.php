@@ -1,7 +1,7 @@
 <?php
 //permet d'utiliser l'usage des varaibles de session
 session_start();
-$slide="home.php";
+$slide = "home.php";
 
 //si on est connecté au back, on place un btn sur le front pour revenir sur le back
 if (isset($_SESSION['id_compte'])) {
@@ -68,7 +68,10 @@ if (isset($_GET['action'])) {
                 $ligne = mysqli_fetch_object($resultat);
                 $content = "<section id=\"page\" class=\" page-" . $ligne->id_page . " flex pad\">";
                 $content .= "<h1 class=\"center\">" . $ligne->titre_page . "</h1>";
-                $content .= $ligne->contenu_page;
+                if (!empty($ligne->img_page)) {
+                    $content .= "<figure id=\"illu\"><img src='".str_replace('_s','_m',$ligne->img_page)."' alt=\"\"/></figure>";
+                }
+                $content .= "<div id=\"text\">".$ligne->contenu_page."</div>";
                 $content .= "</section>";
 
             }

@@ -117,7 +117,7 @@ function login($login, $pass)
   $resultat = mysqli_query($connexion, $requete);
 
   $nb_ligne = mysqli_num_rows($resultat);
-  if ($nb_ligne==1) {
+  if ($nb_ligne == 1) {
     // si requete SELECT on se pose la question
     //si une ou plusieurs lignes sont attendues dans le résultat
     $ligne = mysqli_fetch_object($resultat);
@@ -126,7 +126,11 @@ function login($login, $pass)
     $_SESSION['id_compte'] = $ligne->id_compte;
     $_SESSION['nom_compte'] = $ligne->nom_compte;
     $_SESSION['prenom_compte'] = $ligne->prenom_compte;
-    $_SESSION['img_compte'] = $ligne->img_compte;
+    $_SESSION['statut_compte'] = $ligne->statut_compte;
+    //s'il y a un avatar
+    if (!empty($ligne->img_compte)) {
+      $_SESSION['img_compte'] = $ligne->img_compte;
+    }
 
     // on redirige vers le back
     header("Location:../back/back.php");
