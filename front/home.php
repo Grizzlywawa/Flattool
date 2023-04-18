@@ -1,6 +1,6 @@
 <section id="slider" class="bgcolor1 flex pad">
   <figure class="w2">
-    <img class="w1" src="../images/imac.png" alt="Imac">
+    <img class="w1" src="../images/slider1.png" alt="">
   </figure>
   <article class="w2">
     <h1 class="color4">Superb customers<br>flat design tool</h1>

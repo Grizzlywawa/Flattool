@@ -1,6 +1,15 @@
-body{
-  font-family: 'Roboto';
+html {
+  scroll-behavior: smooth;
 }
+
+body {
+  font-family: "Roboto";
+}
+
+.color_champ {
+  border: solid 1px red;
+}
+
 #left {
   position: fixed;
   top: 0;
@@ -11,7 +20,7 @@ body{
   background-color: gray;
 }
 
-#left #menu{
+#left #menu {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -34,11 +43,11 @@ body{
   background-color: goldenrod;
 }
 
-#left li:first-child{
+#left li:first-child {
   margin-bottom: 80px;
 }
 
-#left li:first-child a{
+#left li:first-child a {
   background-color: goldenrod;
 }
 
@@ -83,12 +92,13 @@ body{
 }
 
 #right {
-  position: fixed;
+  position: absolute;
   top: 80px;
   left: 280px;
   width: calc(100% - 280px);
   min-height: calc(100vh - 80px);
   padding: 30px;
+  overflow-y: auto;
 }
 
 #right details > summary {
@@ -122,7 +132,7 @@ body{
 }
 
 #date {
-  color:black;
+  color: black;
 }
 
 #nom {
@@ -131,7 +141,7 @@ body{
 
 #message,
 #nom_compte,
-.contenu_page {
+.contenu_page .contenu_rubrique {
   margin-block: 10px;
   border: goldenrod solid 2px;
   padding: 10px;
@@ -151,19 +161,23 @@ body{
 }
 
 #form_compte,
-#form_page {
+#form_page,
+#form_rubrique {
   margin-top: 10px;
   display: flex;
   flex-direction: column;
 }
 #form_compte input,
-#form_compte select {
+#form_compte select,
+#form_rubrique input,
+#form_rubrique select {
   border-radius: 10px;
   padding-inline: 10px;
   width: 15%;
 }
 
-#form_compte label {
+#form_compte label,
+#form_rubrique label {
   margin-block: 10px;
   text-transform: uppercase;
   font-weight: bold;
@@ -199,39 +213,44 @@ body{
   padding-right: 15px;
 }
 
-#info_page, #change_page{
-display: flex;
-flex-wrap: wrap;
-width: 50%;
+#info_page,
+#change_page,
+#info_rubrique {
+  display: flex;
+  flex-wrap: wrap;
+  width: 50%;
 }
 
-#change_page{
+#change_page,
+#change_rubrique {
   justify-content: flex-end;
 }
 
-#titre_page{
+#titre_page,
+#id_rubrique {
   font-weight: bold;
   width: 50%;
 }
 
-#id_page{
+#id_page,
+#id_rubrique {
   padding-left: 10px;
 }
 
-#form_page label{
+#form_page label {
   font-weight: bold;
   text-decoration: underline;
   margin-bottom: 5px;
 }
 
-#form_page #submit{
+#form_page #submit {
   width: 10%;
 }
 
-#form_page #ouioui{
+#form_page #ouioui {
   text-decoration: none;
 }
-#form_page #nonnon{
+#form_page #nonnon {
   text-decoration: none;
   padding-left: 15px;
 }

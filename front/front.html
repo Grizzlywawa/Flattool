@@ -6,6 +6,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link href="../css/root.css" rel="stylesheet" type="text/css" />
     <link href="../css/front.css" rel="stylesheet" type="text/css" />
+    <link href="../css/sss.css" rel="stylesheet" type="text/css" />
     <link href="../css/responsive.css" rel="stylesheet" type="text/css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,6 +16,8 @@
     />
     <!--permet de detecter la résolution du client-->
     <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/sss.min.js"></script>
   </head>
 
   <body>
@@ -101,5 +104,14 @@
         </menu>
       </nav>
     </footer>
+    <script type="text/javascript">
+      $('#slider').sss({
+      slideShow : true, // Set to false to prevent SSS from automatically animating.startOn : 0, // Slide to display first. Uses array notation (0 = first slide).transition : 400, // Length (in milliseconds) of the fade transition.speed : 3500, // Slideshow speed in milliseconds.showNav : true // Set to false to hide navigation arrows.
+      startOn : 0, // Slide to display first. Uses array notation (0 = first slide).    
+      transition : 400, // Length (in milliseconds) of the fade transition.
+      speed : 3500, // Slideshow speed in milliseconds.</span>
+      showNav : true // Set to false to hide navigation arrows.
+      });
+  </script>
   </body>
 </html>

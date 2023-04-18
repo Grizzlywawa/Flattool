@@ -223,6 +223,20 @@ input[type="submit"]:hover{
 	z-index:1;
 }
 
+.slide{
+	display:flex;
+	justify-content: space-between;
+}
+
+.slide h1{
+	padding-top:0;
+}
+
+.slide img{
+	position:relative;
+	z-index:2;
+}
+
 /************************/
 #blog{
 	align-items:stretch;

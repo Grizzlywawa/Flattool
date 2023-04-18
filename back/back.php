@@ -45,6 +45,12 @@ if (isset($_SESSION['id_compte'])) {
 
                 break;
 
+            case "rubrique":
+
+                include("rubrique.php");
+
+                break;
+
             case "page":
                 include("page.php");
 

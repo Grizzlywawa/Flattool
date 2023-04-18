@@ -13,7 +13,10 @@ if (isset($_SESSION['id_compte'])) {
     $action_form = "inserer_page";
     //pour cocher par défault visible à oui
     $check[1] = "checked";
-
+    
+    if (isset($_SESSION['id_rubrique'])) {
+        unset($_SESSION['id_rubrique']);
+    }
 
     if (isset($_GET['cas'])) {
 
@@ -22,12 +25,24 @@ if (isset($_SESSION['id_compte'])) {
 
             case "inserer_page":
 
+                if (empty($_POST['id_rubrique'])) {
+                    $confirmation = "<p class=\"pas_ok\">La rubrique associée est obligatoire </p>";
+                    $color_champ['id_rubrique'] = "color_champ";
+                } else {
+                    // on stocke le id_rubrique en session
+                    $_SESSION['id_rubrique'] = $_POST['id_rubrique'];
+                }
                 if (empty($_POST['titre_page'])) {
                     $confirmation = "<p class=\"pas_ok\">Le titre de la page est obligatoire</p>";
+                    $color_champ['titre_page'] = "color_champ";
                 } elseif (empty($_POST['contenu_page'])) {
                     $confirmation = "<p class=\"pas_ok\">Le contenu de la page est obligatoire</p>";
+                    $color_champ['contenu_page'] = "color_champ";
                 } else {
+                    //on stocke de façon permanente la valeur sélectionnée dans la liste déroulante des rubriques
                     $requete = "INSERT INTO pages SET
+                        id_compte='" . $_SESSION['id_compte'] . "',
+                        id_rubrique='" . $_POST['id_rubrique'] . "',
                         titre_page='" . security($_POST['titre_page']) . "',
                         contenu_page='" . security($_POST['contenu_page']) . "',
                         visible='" . $_POST['visible'] . "',
@@ -150,7 +165,9 @@ if (isset($_SESSION['id_compte'])) {
                     // on réattribbue à chaque champ du formulaire la valeur récupérée dans la BDD
                     $_POST['titre_page'] = $ligne->titre_page;
                     $_POST['contenu_page'] = $ligne->contenu_page;
-                    $_POST['visible'] = $ligne->visible;
+                    $check[$ligne->visible] = "checked";
+                    $_POST['date_page'] = $ligne->date_page;
+                    $_SESSION['id_rubrique'] = $ligne->id_rubrique;
                     //si le champ img_page n'est pas vide
                     if (!empty($ligne->img_page)) {
                         $miniature = "<div><img src='" . $ligne->img_page . "' alt''/><a href='back.php?action=page&cas=supprimer_img_page&id_page=" . $ligne->id_page . "'/>Supprimer</div>";
@@ -180,12 +197,20 @@ if (isset($_SESSION['id_compte'])) {
             case "modifier_page":
                 if (isset($_GET['id_page'])) {
                     //on met à jour la table 
-                    if (empty($_POST['titre_page'])) {
+                    if (empty($_POST['id_rubrique'])) {
+                        $confirmation = "<p class=\"pas_ok\">La rubrique associée est obligatoire </p>";
+                        $color_champ['id_rubrique'] = "color_champ";
+                    } elseif (empty($_POST['titre_page'])) {
                         $confirmation = "<p class=\"pas_ok\">Le titre de la page est obligatoire</p>";
+                        $color_champ['titre_page'] = "color_champ";
                     } elseif (empty($_POST['contenu_page'])) {
                         $confirmation = "<p class=\"pas_ok\">Le contenu de la page est obligatoire</p>";
+                        $color_champ['contenu_page'] = "color_champ";
                     } else {
-                        $requete = "UPDATE pages SET titre_page='" . security($_POST['titre_page']) . "',
+                        $requete = "UPDATE pages SET
+                        id_compte='" . $_SESSION['id_compte'] . "',
+                        id_rubrique='" . $_POST['id_rubrique'] . "',
+                        titre_page='" . security($_POST['titre_page']) . "',
                         contenu_page='" . security($_POST['contenu_page']) . "',
                         date_page=NOW()";
                         $requete .= " WHERE id_page='" . $_GET['id_page'] . "'";
@@ -271,8 +296,26 @@ if (isset($_SESSION['id_compte'])) {
         }
     }
 
+    //on créé une liste déroulante dynamique des rubriques
+    $requete0 = "SELECT * FROM rubriques ORDER BY rang";
+    $resultat0 = mysqli_query($connexion, $requete0);
+    //tant que $resultat contient des lignes (uplets)
+    $list_rubriques = "<option value=\"\">rubrique [obligatoire]</option>";
+    while ($ligne0 = mysqli_fetch_object($resultat0)) {
+        if (isset($_SESSION['id_rubrique']) && $_SESSION['id_rubrique'] == $ligne0->id_rubrique) {
+            $list_rubriques .= "<option selected value=\"" . $ligne0->id_rubrique . "\">" . $ligne0->nom_rubrique . "</option>";
+        } else {
+            $list_rubriques .= "<option value=\"" . $ligne0->id_rubrique . "\">" . $ligne0->nom_rubrique . "</option>";
+        }
+    }
 
-    $requete = "SELECT * FROM pages ORDER BY id_page ASC";
+
+    //tableau d'affichage des pages
+    $requete = "SELECT p.*, c.* FROM pages AS p
+                INNER JOIN comptes AS c
+                ON p.id_compte = c.id_compte
+                ORDER BY p.id_page ASC";
+
     $resultat = mysqli_query($connexion, $requete);
     //tant que $resultat contient des lignes (uplets)
     $content = "";
@@ -283,8 +326,8 @@ if (isset($_SESSION['id_compte'])) {
         $content .= "<div id=\"info_page\">";
         $content .= "<div id=\"id_page\">" . $ligne->id_page . "</div>";
         $content .= "<div id=\"titre_page\">" . $ligne->titre_page . " " . "</div>";
-        if(!empty($ligne->img_page)){
-            $content.="<div><img src=\"".$ligne->img_page."\" alt=\"\" /></div>";
+        if (!empty($ligne->img_page)) {
+            $content .= "<div><img src=\"" . $ligne->img_page . "\" alt=\"\" /></div>";
         }
         $content .= "</div><div id=\"change_page\">";
         //Pour changer l'état de la page en visible ou non en cliquant sur l'état de la page
@@ -299,6 +342,7 @@ if (isset($_SESSION['id_compte'])) {
         $content .= "</summary>";
         $content .= "<div class=\"contenu_page\">";
         $content .= "<div id=\"date\">Créer le " . $ligne->date_page . "</div>";
+        $content .= "<div id\"compte\">Créer par " . $ligne->prenom_compte . " " . $ligne->nom_compte . "</div>";
         $content .= "<div id=\"contenu_page\">" . $ligne->contenu_page . "</div>";
         $content .= "</div>";
         $content .= "</details>";

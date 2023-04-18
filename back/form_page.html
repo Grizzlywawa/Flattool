@@ -4,6 +4,12 @@
   action="back.php?action=page&cas=<?php if(isset($action_form)){echo $action_form;} ?>"
   method="post"
 >
+
+  <label for="id_rubrique">Rubrique associée (obligatoire)</label>
+  <select name="id_rubrique" id="id_rubrique" class="<?php if(isset($color_champ['id_rubrique'])){echo $color_champ['id_rubrique'];} ?>">
+    <?php if(isset($list_rubriques)){echo $list_rubriques;}?>
+  </select>
+
   <label for="title_page">Titre</label>
   <input
     id="title_page"
