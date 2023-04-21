@@ -55,6 +55,10 @@ if (isset($_SESSION['id_compte'])) {
                 include("page.php");
 
                 break;
+
+            case "slider":
+                include("slider.php");
+                break;
         }
     }
     //permet d'associer front.php avec front.html

@@ -13,7 +13,7 @@ if (isset($_SESSION['id_compte'])) {
     $action_form = "inserer_page";
     //pour cocher par défault visible à oui
     $check[1] = "checked";
-    
+
     if (isset($_SESSION['id_rubrique'])) {
         unset($_SESSION['id_rubrique']);
     }
@@ -39,6 +39,12 @@ if (isset($_SESSION['id_compte'])) {
                     $confirmation = "<p class=\"pas_ok\">Le contenu de la page est obligatoire</p>";
                     $color_champ['contenu_page'] = "color_champ";
                 } else {
+                    //on calcule le rang à attribuer à la nouvelle page
+                    $requete0 = "SELECT COUNT(*) AS rang FROM pages";
+                    $resultat0 = mysqli_query($connexion, $requete0);
+                    $ligne0 = mysqli_fetch_object($resultat0);
+                    $new_rang = $ligne0->rang + 1;
+
                     //on stocke de façon permanente la valeur sélectionnée dans la liste déroulante des rubriques
                     $requete = "INSERT INTO pages SET
                         id_compte='" . $_SESSION['id_compte'] . "',
@@ -46,7 +52,9 @@ if (isset($_SESSION['id_compte'])) {
                         titre_page='" . security($_POST['titre_page']) . "',
                         contenu_page='" . security($_POST['contenu_page']) . "',
                         visible='" . $_POST['visible'] . "',
+                        rang='" . $new_rang . "',
                         date_page=NOW()";
+
                     $resultat = mysqli_query($connexion, $requete);
                     //on récupère le dernier id_compte qui vient d'être créé
                     $dernier_id_cree = mysqli_insert_id($connexion);
@@ -150,6 +158,16 @@ if (isset($_SESSION['id_compte'])) {
                     $requete2 = "DELETE FROM pages WHERE id_page='" . $_GET['id_page'] . "'";
                     $resultat2 = mysqli_query($connexion, $requete2);
                     $confirmation = "<p class=\"ok\">La page a bien été supprimée</p>";
+
+                    //on réordonne les pages
+                    $requete3 = "SELECT * FROM pages ORDER BY rang";
+                    $resultat3 = mysqli_query($connexion, $requete3);
+                    $i = 1;
+                    while ($ligne3 = mysqli_fetch_object($resultat3)) {
+                        $requete4 = "UPDATE pages SET rang='" . $i . "'WHERE id_page='" . $ligne3->id_page . "'";
+                        $resultat4 = mysqli_query($connexion, $requete4);
+                        $i++;
+                    }
                 }
 
 
@@ -170,7 +188,7 @@ if (isset($_SESSION['id_compte'])) {
                     $_SESSION['id_rubrique'] = $ligne->id_rubrique;
                     //si le champ img_page n'est pas vide
                     if (!empty($ligne->img_page)) {
-                        $miniature = "<div><img src='" . $ligne->img_page . "' alt''/><a href='back.php?action=page&cas=supprimer_img_page&id_page=" . $ligne->id_page . "'/>Supprimer</div>";
+                        $miniature = "<div><img src='" . $ligne->img_page . "' alt=''/><a href='back.php?action=page&cas=supprimer_img_page&id_page=" . $ligne->id_page . "'/>Supprimer</a></div>";
                     }
                 }
 
@@ -292,6 +310,47 @@ if (isset($_SESSION['id_compte'])) {
                 }
                 break;
 
+            case "trier_page":
+                if (isset($_GET['id_rubrique']) && isset($_GET['id_page'])) {
+                    switch ($_GET['sens']) {
+                        case "up":
+                            if (isset($_GET['rang']) && $_GET['rang'] > 1) {
+                                //on change le rang de la ligne a qui on veut prendre la place
+                                $rang = $_GET['rang'] - 1;
+                                echo $rang;
+                                $requete = "UPDATE pages SET rang='" . $_GET['rang'] . "' WHERE id_rubrique='" . $_GET['id_rubrique'] . "' AND rang='" . $rang . "'";
+                                $resultat = mysqli_query($connexion, $requete);
+
+                                //on change le rang de la rubrique (id_rubrique) concernée
+                                $requete2 = "UPDATE pages SET rang='" . $rang . "' WHERE id_page='" . $_GET['id_page'] . "'";
+                                //echo $requete;
+                                $resultat2 = mysqli_query($connexion, $requete2);
+                            }
+                            break;
+                        case "down":
+                            //on calcule le nb de lignes 
+                            $requete = "SELECT count(*) AS nb_page FROM pages WHERE id_rubrique='" . $_GET['id_rubrique'] . "'";
+                            $resultat = mysqli_query($connexion, $requete);
+                            $ligne = mysqli_fetch_object($resultat);
+
+                            if (isset($_GET['rang']) && $_GET['rang'] < $ligne->nb_page) {
+                                //on change le rang de la ligne a qui on veut prendre la place en prenant le fait qu'il soit dans la même rubrique
+                                $rang = $_GET['rang'] + 1;
+                                $requete = "UPDATE pages SET rang='" . $_GET['rang'] . "' WHERE id_rubrique='" . $_GET['id_rubrique'] . "' AND rang='" . $rang . "'";
+                                $resultat = mysqli_query($connexion, $requete);
+
+                                //on change le rang de la page (id_page) concernée
+                                $requete2 = "UPDATE pages SET rang='" . $rang . "' WHERE id_page='" . $_GET['id_page'] . "'";
+                                //echo $requete;
+                                $resultat2 = mysqli_query($connexion, $requete2);
+                            }
+                            break;
+                    }
+                }
+
+                break;
+
+
 
         }
     }
@@ -311,20 +370,32 @@ if (isset($_SESSION['id_compte'])) {
 
 
     //tableau d'affichage des pages
-    $requete = "SELECT p.*, c.* FROM pages AS p
+    $requete = "SELECT r.*, p.*, c.* FROM rubriques AS r
+                INNER JOIN pages AS p
                 INNER JOIN comptes AS c
-                ON p.id_compte = c.id_compte
-                ORDER BY p.id_page ASC";
+                ON r.id_rubrique = p.id_rubrique
+                AND p.id_compte = c.id_compte
+                ORDER BY r.rang, p.rang ASC";
 
     $resultat = mysqli_query($connexion, $requete);
     //tant que $resultat contient des lignes (uplets)
     $content = "";
+    $tab_rubrique = array();
+    $i = 0;
     while ($ligne = mysqli_fetch_object($resultat)) {
+        $tab_rubrique[$i] = $ligne->id_rubrique;
+        if ($i == 0 || ($i > 0 && $tab_rubrique[$i] != $tab_rubrique[$i - 1])) {
+            $content .= "<div>" . $ligne->nom_rubrique . "</div>";
+        }
 
         $content .= "<details>";
         $content .= "<summary>";
+        $content .= "<div class=\"actions\">";
+        $content .= "<a href=\"back.php?action=page&cas=trier_page&sens=up&id_rubrique=".$ligne->id_rubrique."&id_page=" . $ligne->id_page . "&rang=" . $ligne->rang . "\"><i class=\"fa-solid fa-arrow-up\"></i></a>";
+        $content .= "<a href=\"back.php?action=page&cas=trier_page&sens=down&id_rubrique=".$ligne->id_rubrique."&id_page=" . $ligne->id_page . "&rang=" . $ligne->rang . "\"><i class=\"fa-solid fa-arrow-down\"></i></a>";
+        $content .= "&nbsp;&nbsp;</div>";
         $content .= "<div id=\"info_page\">";
-        $content .= "<div id=\"id_page\">" . $ligne->id_page . "</div>";
+        $content .= "<div id=\"id_page\">" . $ligne->id_page . "</div> &nbsp;";
         $content .= "<div id=\"titre_page\">" . $ligne->titre_page . " " . "</div>";
         if (!empty($ligne->img_page)) {
             $content .= "<div><img src=\"" . $ligne->img_page . "\" alt=\"\" /></div>";
@@ -346,6 +417,7 @@ if (isset($_SESSION['id_compte'])) {
         $content .= "<div id=\"contenu_page\">" . $ligne->contenu_page . "</div>";
         $content .= "</div>";
         $content .= "</details>";
+        $i++;
     }
 
 } else {

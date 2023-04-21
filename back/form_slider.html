@@ -1,0 +1,54 @@
+<form id="form_back" enctype="multipart/form-data"
+    action="back.php?action=slider&cas=<?php if (isset($action_form)) {
+        echo $action_form;
+    } ?>" method="post">
+
+    <label for="titre_slider">Titre du slider (obligatoire)</label>
+    <input id="titre_slider"
+        class="<?php if (isset($color_champ['titre_slider'])) {
+            echo $color_champ['titre_slider'];
+        } ?>"
+        placeholder="Titre [obligatoire]" type="text" name="titre_slider"
+        value="<?php if (isset($_POST['titre_slider'])) {
+            echo $_POST['titre_slider'];
+        } ?>">
+
+    <label for="contenu_slider">Contenu texte du slider (facultatif)</label>
+    <div class="YSeditor">
+        <textarea id="contenu_slider" placeholder="Contenu [facultatif]"
+            name="contenu_slider"><?php if (isset($_POST['contenu_slider'])) {
+                echo $_POST['contenu_slider'];
+            } ?></textarea>
+    </div>
+
+    <label for="image">Illustration du slider (obligatoire)</label>
+    <input id="image" class="<?php if (isset($color_champ['img_slider'])) {
+        echo $color_champ['img_slider'];
+    } ?>"
+        type="file" name="img_slider" value="">
+    <?php if (isset($miniature)) {
+        echo $miniature;
+    } ?>
+
+    <label for="alt_slider">Alt du slider (obligatoire)</label>
+    <input id="alt_slider" class="<?php if (isset($color_champ['alt_slider'])) {
+        echo $color_champ['alt_slider'];
+    } ?>"
+        placeholder="Alt du slider [obligatoire]" type="text" name="alt_slider"
+        value="<?php if (isset($_POST['alt_slider'])) {
+            echo $_POST['alt_slider'];
+        } ?>">
+
+    <label>Visible</label>
+    <div class="options">
+        <label for="oui">OUI</label>
+        <input id="oui" type="radio" name="visible" value="1" <?php if (isset($check[1])) {
+            echo $check[1];
+        } ?>>
+        <label for="non">NON</label>
+        <input id="non" type="radio" name="visible" value="0" <?php if (isset($check[0])) {
+            echo $check[0];
+        } ?>>
+    </div>
+    <input type="submit" name="submit" value="ENREGISTRER">
+</form>

@@ -101,10 +101,16 @@ body {
   overflow-y: auto;
 }
 
+#right details{
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
 #right details > summary {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  width: 75%;
   background-color: gray;
   border: solid 1px black;
   margin-block: 10px;
@@ -116,7 +122,6 @@ body {
 }
 
 #right summary div {
-  padding-right: 5%;
   font-size: 1.2rem;
 }
 
@@ -213,8 +218,18 @@ body {
   padding-right: 15px;
 }
 
-#info_page,
+.actions i{
+  color: goldenrod;
+}
+
 #change_page,
+#change_rubrique{
+  display: flex;
+  flex-wrap: wrap;
+  width: 25%;
+}
+
+#info_page,
 #info_rubrique {
   display: flex;
   flex-wrap: wrap;
