@@ -165,6 +165,29 @@ input[type="submit"]:hover{
 	padding:4px;
 }
 
+/*****************************/
+
+#menu_haut input{
+	display: none;
+}
+
+#menu_haut li{
+	position: relative;
+}
+
+#menu_haut li > ul{
+	display: none;
+	position: absolute;
+	top: 60px;
+	left: 0;
+	z-index: 2;
+	background-color: white;
+}
+
+#menu_haut input:checked + ul{
+	display: block;
+}
+
 /*********************/
 #page{
 	padding:var(--padding_v) var(--padding_h);	
@@ -174,29 +197,12 @@ input[type="submit"]:hover{
 #slider{
 	margin-top:var(--header_h);
 	min-height:calc(100vh - var(--header_h));
-	padding-bottom:120px;
 }
 
 #slider h1{
 	font-size:2.2rem;
 	text-shadow:1px 1px 2px var(--color3);
 	text-transform:none;
-}
-
-#slider > div{
-	position:absolute;
-	bottom:25px;
-	right:var(--padding_h);
-	z-index:100;
-}
-
-#slider > figure > img{
-	position:relative;
-	z-index:2;
-}
-
-#slider > div > div:first-of-type{
-	margin-right:10px;
 }
 
 #slider::before{
